@@ -2,6 +2,14 @@ node {
 
 def mavenHome = tool name: "Maven3.8.4"
 
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM(ignorePostCommitHooks: true, scmpoll_spec: '* * * * *')])])
+
+
+echo "the tag name is ${env.TAG_NAME}"
+echo "the Node name is ${env.NODE_NAME}"
+echo "the Build number is ${env.BUILD_NUMBER}"
+
+
 stage ('checkoutcode')
 {
 git branch: 'development', credentialsId: 'e0a166e7-4292-4b35-b1f9-538333d49c75', url: 'https://github.com/BHARATH15021995/maven-web-application.git'
