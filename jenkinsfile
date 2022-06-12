@@ -1,0 +1,31 @@
+node {
+
+def mavenHome = tool name: "Maven3.8.4"
+
+stage ('checkoutcode')
+{
+git branch: 'development', credentialsId: 'e0a166e7-4292-4b35-b1f9-538333d49c75', url: 'https://github.com/BHARATH15021995/maven-web-application.git'
+}
+stage ('Build')
+{
+sh "${mavenHome}/bin/mvn clean package"
+}
+/*
+stage ('sonarQubereport')
+{
+sh "${mavenHome}/bin/mvn sonar:sonar"
+}
+
+stage ('uploadartifact')
+{
+sh "${mavenHome}/bin/mvn deploy"
+}
+stage ('deploytoTomact')
+{
+sshagent(['db68136e-120b-4482-ac62-0ea720639ca2']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.127.91.148:/opt/apache-tomcat-9.0.63/webapps"
+}
+
+}
+/*
+}
